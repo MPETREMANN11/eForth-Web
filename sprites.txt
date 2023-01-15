@@ -30,7 +30,7 @@
     cr
     r> base !
   ;
-tableChars    \ display characters table
+\ tableChars    \ display characters table
 
 \ define cARRAY as bi dimensionnal array
 structures 
@@ -57,7 +57,44 @@ create myVscreen    \ define a screen 8x32 bytes
     $b2 c, $b2 c,  
 blackChars >content 2 type   \ display content of sprite blackChars 
 
-\ define 5 x 7 sprite:
+\ define 5 x 7 sprites:
+
+2 7 sprite: dot
+    $20 c,  $20 c,
+    $20 c,  $20 c,
+    $20 c,  $20 c,
+    $20 c,  $20 c,
+    $20 c,  $20 c,
+    $20 c,  $20 c,
+    $db c,  $db c,
+
+5 7 sprite: char0
+    $20 c,  $db c,  $db c,  $db c,  $20 c, 
+    $db c,  $20 c,  $20 c,  $20 c,  $db c,
+    $db c,  $20 c,  $20 c,  $20 c,  $db c,
+    $db c,  $20 c,  $20 c,  $20 c,  $db c,
+    $db c,  $20 c,  $20 c,  $20 c,  $db c,
+    $db c,  $20 c,  $20 c,  $20 c,  $db c,
+    $20 c,  $db c,  $db c,  $db c,  $20 c, 
+
+3 7 sprite: char1
+    $20 c,  $db c,  $20 c,
+    $db c,  $db c,  $20 c,
+    $20 c,  $db c,  $20 c,
+    $20 c,  $db c,  $20 c,
+    $20 c,  $db c,  $20 c,
+    $20 c,  $db c,  $20 c,
+    $db c,  $db c,  $db c,
+
+5 7 sprite: char2
+    $20 c,  $db c,  $db c,  $db c,  $20 c, 
+    $db c,  $20 c,  $20 c,  $20 c,  $db c,
+    $20 c,  $20 c,  $20 c,  $20 c,  $db c,
+    $20 c,  $20 c,  $20 c,  $db c,  $20 c,  
+    $20 c,  $20 c,  $db c,  $20 c,  $20 c,  
+    $20 c,  $db c,  $20 c,  $20 c,  $20 c,  
+    $db c,  $db c,  $db c,  $db c,  $db c,
+
 5 7 sprite: char3
     $20 c,  $db c,  $db c,  $db c,  $20 c, 
     $db c,  $20 c,  $20 c,  $20 c,  $db c,
@@ -66,6 +103,62 @@ blackChars >content 2 type   \ display content of sprite blackChars
     $20 c,  $20 c,  $20 c,  $20 c,  $db c,
     $db c,  $20 c,  $20 c,  $20 c,  $db c,
     $20 c,  $db c,  $db c,  $db c,  $20 c,
+
+5 7 sprite: char4
+    $20 c,  $db c,  $20 c,  $20 c,  $20 c, 
+    $20 c,  $db c,  $20 c,  $20 c,  $20 c, 
+    $20 c,  $db c,  $20 c,  $20 c,  $20 c, 
+    $db c,  $20 c,  $20 c,  $db c,  $20 c, 
+    $db c,  $db c,  $db c,  $db c,  $db c,
+    $20 c,  $20 c,  $20 c,  $db c,  $20 c, 
+    $20 c,  $20 c,  $20 c,  $db c,  $20 c, 
+
+5 7 sprite: char5
+    $db c,  $db c,  $db c,  $db c,  $db c,
+    $db c,  $20 c,  $20 c,  $20 c,  $20 c, 
+    $db c,  $20 c,  $20 c,  $20 c,  $20 c, 
+    $db c,  $db c,  $db c,  $db c,  $20 c,
+    $20 c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $20 c,  $db c,  $db c,  $db c,  $20 c,
+
+5 7 sprite: char6
+    $20 c,  $db c,  $db c,  $db c,  $20 c,
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $db c,  $20 c,  $20 c,  $20 c,  $20 c, 
+    $db c,  $db c,  $db c,  $db c,  $20 c,
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $20 c,  $db c,  $db c,  $db c,  $20 c,
+
+3 7 sprite: char7
+    $db c,  $db c,  $db c,
+    $20 c,  $20 c,  $db c,
+    $20 c,  $20 c,  $db c,
+    $20 c,  $20 c,  $db c,
+    $20 c,  $20 c,  $db c,
+    $20 c,  $20 c,  $db c,
+    $20 c,  $20 c,  $db c,
+
+5 7 sprite: char8
+    $20 c,  $db c,  $db c,  $db c,  $20 c,
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $20 c,  $db c,  $db c,  $db c,  $20 c,
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $20 c,  $db c,  $db c,  $db c,  $20 c,
+
+5 7 sprite: char9
+    $20 c,  $db c,  $db c,  $db c,  $20 c,
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $20 c,  $db c,  $db c,  $db c,  $db c,
+    $20 c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $db c,  $20 c,  $20 c,  $20 c,  $db c, 
+    $20 c,  $db c,  $db c,  $db c,  $20 c,
+
+
 
 : .sprite { xpos ypos sprAddr -- }
     sprAddr >height c@ 0 do
@@ -80,12 +173,26 @@ blackChars >content 2 type   \ display content of sprite blackChars
 0 constant blackColor
 1 constant redColor
 4 constant blueColor
-10 02 char3 .sprite
-redColor fg        
-16 02 char3 .sprite
 blueColor fg
-22 02 char3 .sprite 
-blackColor fg    
-cr cr
+10 02 char3 .sprite
+16 02 dot   .sprite
+19 02 char1 .sprite
+23 02 char2 .sprite
+29 02 char4 .sprite
+35 02 char5 .sprite
+41 02 char6 .sprite
+
+47 02 char7 .sprite
+
+51 02 char8 .sprite
+
+57 02 char9 .sprite
+
+63 02 char0 .sprite
+
+
+7 fg
+
+
 
 

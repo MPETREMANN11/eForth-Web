@@ -2,7 +2,7 @@
 \ strings management for uEforth
 \    Filename:      strings.txt
 \    Date:          20 jun 2021
-\    Updated:       17 jan 2023
+\    Updated:       18 jan 2023
 \    File Version:  1.0
 \    MCU:           Windows
 \    Forth:         uEforth all versions 7.x++
@@ -56,10 +56,10 @@ forth
   ;
 
 \ Example:
-: s1
-    s" this is constant string" ;
-200 string test
-s1 test $!
+\ : s1
+\     s" this is constant string" ;
+\ 200 string test
+\ s1 test $!
 
 \ set length of a string to zero
 : 0$! ( addr len -- )
@@ -67,42 +67,62 @@ s1 test $!
     __STRING - cell+ >realLength !
   ;
 
-test 0$!
-test type
+\ Use: 
+\ test 0$!
+\ test type
 
 \ extract n chars right from string
 : right$  ( str1 n --- str2 )
     0 max over min >r + r@ - r>
   ;
 
-s1 test $!
-test 5 right$ type
+\ Use:
+\ s1 test $!
+\ test 5 right$ type
 
 \ extract n chars left frop string
 : left$  ( str1 n --- str2 )
     0 max min
   ;
 
+\ Use:
+\ test 5 left$ type
+
 \ extract n chars from pos in string
 : mid$  ( str1 pos len --- str2 )
     >r over swap - right$ r> left$
   ;
 
+\ Use:
+\ test 1 10 mid$ type
+
 \ append char c to string 
 : c+$!  { car addr len -- }
     car addr len + c!
-    1 addr cell - +!
+    1 addr __STRING - cell+ >realLength +!
   ; 
+
+\ Use:
+\ char X test c+$!
+\ test type
 
 \ copy from addr1 len1 to addr2 len2 strings
 : append$ { addr1 len1 addr2 len2 -- }
     addr1 addr2 len2 + len1 cmove
-    len1 addr2 cell - +!
+    len1 addr2 __STRING - cell+ >realLength +!
   ;
+
+\ Use:
+\ s" append text"  test append$
+\ test type
 
 
 \ work only with strings. Don't use with other arrays
-: input$ ( addr len -- )
-    over swap maxlen$ nip accept
-    swap cell - !
+: input$ { addr len -- }
+    addr len maxlen$ nip accept
+    addr __STRING - cell+ >realLength !
   ;
+
+\ Use:
+\ test input$
+\ test type

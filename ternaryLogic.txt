@@ -1,0 +1,133 @@
+\ *********************************************************************
+\ ternary logic operators
+\    Filename:      ternaryLogic.txt
+\    Date:          21 jan 2023
+\    Updated:       21 jan 2023
+\    File Version:  1.0
+\    MCU:           ueForth
+\    Copyright:     Marc PETREMANN
+\    Author:        Marc PETREMANN
+\    GNU General Public License
+\ *********************************************************************
+
+\ tfl : ternary flag
+\ tfl = 0   is FALSE  flag
+\ tfl = 1   is TRUE   flag
+\ tfl = 2   is UNKNOW flag
+
+\ +--------+--------++----------+----------+-----------+
+\ |   A    |   B    || A tOR B  | A tAND B |  tNOT A   |
+\ +--------+--------++----------+----------+-----------+
+\ |  TRUE  |  TRUE  ||   TRUE   |   TRUE   |  FALSE    |
+\ +--------+--------++----------+----------+-----------+
+\ |  TRUE  | UNKNOW ||   TRUE   |  UNKNOW  |  FALSE    |
+\ +--------+--------++----------+----------+-----------+
+\ |  TRUE  |  FALSE ||   TRUE   |  FALSE   |  FALSE    |
+\ +--------+--------++----------+----------+-----------+
+\ | UNKNOW |  TRUE  ||   TRUE   |  UNKNOW  |  UNKNOW   |
+\ +--------+--------++----------+----------+-----------+
+\ | UNKNOW | UNKNOW ||  UNKNOW  |  UNKNOW  |  UNKNOW   |
+\ +--------+--------++----------+----------+-----------+
+\ | UNKNOW |  FALSE ||  UNKNOW  |  FALSE   |  UNKNOW   |
+\ +--------+--------++----------+----------+-----------+
+\ | FALSE  |  TRUE  ||   TRUE   |  FALSE   |  TRUE     |
+\ +--------+--------++----------+----------+-----------+
+\ | FALSE  | UNKNOW ||  UNKNOW  |  FALSE   |  TRUE     |
+\ +--------+--------++----------+----------+-----------+
+\ | FALSE  |  FALSE ||   FALSE  |  FALSE   |  TRUE     |
+\ +--------+--------++----------+----------+-----------+
+
+
+
+0 constant FALSE
+1 constant TRUE
+2 constant UNKNOW
+
+\ convert decimal value to ternary flag
+: n>tfl ( n --- tfl)
+    dup  0= if              \ test if n equal 0
+        drop FALSE
+    else
+        1 AND               \ test if n is ODD
+        if      TRUE
+        else    UNKNOW
+        then
+    then
+  ;
+
+
+\ ternary OR
+: tOR ( n1 n2 --- tfl )
+    n>tfl
+    swap n>tfl
+    10 * +
+    case
+        11 of TRUE      endof
+        12 of TRUE      endof
+        10 of TRUE      endof
+        21 of TRUE      endof
+        22 of UNKNOW    endof
+        20 of UNKNOW    endof
+        01 of TRUE      endof
+        02 of UNKNOW    endof
+        00 of FALSE     endof
+    endcase
+  ;
+
+\ Gordon Charlton:
+\ : tor or dup 2 > if 2 - then ;
+
+
+\ ternary AND
+: tAND ( n1 n2 --- tfl)
+    n>tfl
+    swap n>tfl
+    10 * +
+    case
+        11 of TRUE      endof
+        12 of UNKNOW    endof
+        10 of FALSE     endof
+        21 of UNKNOW    endof
+        22 of UNKNOW    endof
+        20 of FALSE     endof
+        01 of FALSE     endof
+        02 of FALSE     endof
+        00 of FALSE     endof
+    endcase
+  ;
+
+
+
+\ ternary NOT
+: tNOT ( n1 --- tfl)
+    n>tfl
+    case
+        1 of FALSE      endof
+        2 of UNKNOW     endof
+        0 of TRUE       endof
+    endcase
+  ;
+
+
+
+\ tOR test
+TRUE TRUE       tOR . cr    \ result: 1
+TRUE UNKNOW     tOR . cr    \ result: 1
+TRUE FALSE      tOR . cr    \ result: 1
+UNKNOW TRUE     tOR . cr    \ result: 1
+UNKNOW UNKNOW   tOR . cr    \ result: 2
+UNKNOW FALSE    tOR . cr    \ result: 2
+FALSE TRUE      tOR . cr    \ result: 1
+FALSE UNKNOW    tOR . cr    \ result: 2
+FALSE FALSE     tOR . cr    \ result: 0
+
+\ tAND test
+TRUE TRUE       tAND . cr   \ result: 1
+TRUE UNKNOW     tAND . cr   \ result: 2
+TRUE FALSE      tAND . cr   \ result: 0
+UNKNOW TRUE     tAND . cr   \ result: 2
+UNKNOW UNKNOW   tAND . cr   \ result: 2
+UNKNOW FALSE    tAND . cr    \ result: 0
+FALSE TRUE      tAND . cr   \ result: 0
+FALSE UNKNOW    tAND . cr   \ result: 0
+FALSE FALSE     tAND . cr   \ result: 0

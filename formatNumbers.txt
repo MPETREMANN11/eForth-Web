@@ -1,0 +1,94 @@
+\ *********************************************************************
+\ Numbers formatting examples
+\    Filename:      formatNumbers.txt
+\    Date:          18 jan 2023
+\    Updated:       23 jan 2023
+\    File Version:  1.0 
+\    Forth:         ueForth / ESP32forth
+\    Copyright:     Marc PETREMANN
+\    Author:        Marc PETREMANN
+\    GNU General Public License
+\ *********************************************************************
+
+\ display n in fields of width size
+: .r ( n width -- )
+    >r str
+    r> over - 0 max spaces
+    type
+  ;
+
+\ Use:
+cr  12 5 .r
+cr  -4 5 .r 
+cr
+
+\ one byte in binary format
+: cBin# ( c[0..255] -- )
+    base @ >r
+    binary
+    <# # # # # # # # # #>
+    r> base !
+  ;
+
+\ Use:
+36  cBin# type cr
+$ff cBin# type cr
+
+\ display 32 bit value in binary format
+: .Bin ( n -- )
+    $100 /mod  swap >r
+    $100 /mod  swap >r
+    $100 /mod  swap >r
+    cBin# type space
+    r> cBin# type space
+    r> cBin# type space
+    r> cBin# type
+  ;
+    
+$ff .Bin cr
+\ display: 00000000 00000000 00000000 11111111
+$12345678 .Bin cr
+\ display: 00010010 00110100 01010110 01111000
+
+\ display n seconds in HH:MM:SS format
+: :## 
+    base @ >r
+    decimal #  6 base !  #
+    [char] : hold
+    r> base !
+  ;
+: HMS ( n -- )
+    <# :## :## 
+    24 mod # # #>
+  ;
+
+ 120 HMS type   \ display: 00:02:00
+4500 HMS type   \ display: 01:15:00
+
+
+
+\ Display currencies
+char . value centsSeparator
+char $ value currencySign
+
+: currSignHold ( -- )
+    currencySign [char] $ =
+    if
+        currencySign hold
+    else
+        currencySign hold  bl hold
+    then
+  ;
+
+: toCurr ( n -- adr len )
+    base @ >r   decimal     \ save base and force to decimal base
+    dup >r abs              \ duplicate to ret stack and set abs value
+    <# currSignHold  # #    \ concat decimals values 
+    centsSeparator hold     \ concat cents separator
+    #s r> sign #>
+    r> base !               \ restore base
+  ;
+
+-1002 toCurr type cr    \ display: -10.02 $
+-25   toCurr type cr    \ display: -0.25 $
+ 254 toCurr type cr     \ display: 2.54 $

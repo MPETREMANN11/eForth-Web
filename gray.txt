@@ -1,0 +1,51 @@
+\ *********************************************************************
+\ Convert n to gray code value and gray value to n
+\    Filename:      gray.txt
+\    Date:          24 feb 2023
+\    Updated:       24 feb 2023
+\    File Version:  1.0
+\    MCU:           ESP32-WROOM-32
+\    Forth:         eForth all versions 7.x++
+\    Copyright:     Marc PETREMANN
+\    Author:        Marc PETREMANN
+\    GNU General Public License
+\ *********************************************************************
+
+: >gray ( n -- n' )
+    dup 2/ xor      \ n' = n xor ( 1 time right shift logic )
+  ;
+
+: gray> ( n -- n )
+    dup 0 <> if
+        0  1 31 lshift
+        begin
+            >r          \ save mask on return stack
+            2dup 2/ xor
+            r@ and or
+            r> 1 rshift
+            dup 0=
+        until
+        drop nip        \ clean data stack and leave result
+    then
+  ;
+
+\ eof
+
+: .r { value size -- }
+    value <#
+    size for aft # then next 
+    #> type
+  ;
+
+
+: test
+    2 base !        \ sélectionne base binaire
+    32 0 do
+        cr I  dup 5 .r ."  ==> "
+        >gray     5 .r
+    loop
+    decimal
+  ;
+
+
+

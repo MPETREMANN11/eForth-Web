@@ -11,6 +11,8 @@
 \    GNU General Public License
 \ *********************************************************************
 
+\ more infos: https://arduino-forth.com/article/FORTH_exemples_codeGray
+
 : >gray ( n -- n' )
     dup 2/ xor      \ n' = n xor ( 1 time right shift logic )
   ;

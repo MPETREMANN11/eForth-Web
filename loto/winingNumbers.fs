@@ -1628,3 +1628,5 @@ create winingNumbers
 14 c, 18 c, 19 c, 31 c, 37 c, 
 07 c, 13 c, 39 c, 47 c, 50 c, 
 16 c, 29 c, 32 c, 36 c, 41 c,
+
+' winingNumbers to LOTOdatas

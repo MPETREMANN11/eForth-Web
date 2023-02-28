@@ -14,7 +14,7 @@
 
 inEnglish
 
-\ load LOTTO in /loto/main.fs
+\ load LOTTO in /lotto/main.fs
 s" tools/dumpTool.fs" included? invert 
 [IF] s" tools/dumpTool.fs" included [THEN]
-s" loto/main.fs" included
+s" lotto/main.fs" included

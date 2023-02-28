@@ -1,18 +1,13 @@
 \ define language constants
-0 value FRENCH
-0 value ENGLISH
+ 0 value FRENCH     immediate
+-1 value ENGLISH    immediate
 
-: inFrench ( -- )
-    -1 to FRENCH
-     0 to ENGLISH
-  ;
-
-: inEnglish ( -- )
-     0 to FRENCH
-    -1 to ENGLISH
-  ;
-
-inEnglish
+: ?\  ( fl --- )
+    0=
+    if
+        postpone \
+    then
+; immediate
 
 \ load LOTTO in /lotto/main.fs
 s" tools/dumpTool.fs" included? invert 

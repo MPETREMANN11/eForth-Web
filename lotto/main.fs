@@ -2,7 +2,7 @@
 \ LOTTO game main file
 \    Filename:      main.fs
 \    Date:          27 feb 2023
-\    Updated:       27 feb 2023
+\    Updated:       28 feb 2023
 \    File Version:  1.0
 \    MCU:           eFORTH
 \    Copyright:     Marc PETREMANN
@@ -47,8 +47,8 @@ forth
 s" euroMillionFR.fs" included
 
 \ update >nbgrids field
-here   LOTTOdatas >datas -
-LOTTOdatas nbsPerGrid@ /
+here getLOTTOdatasAddr -
+nbsPerGrid@ /
 LOTTOdatas >nbgrids !
 
 \ load Manage content of LOTTO grids

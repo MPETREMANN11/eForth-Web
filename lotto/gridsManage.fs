@@ -35,12 +35,6 @@
     fl
   ;
 
-: ## ( n -- addr len )
-    base @ >r decimal
-    <# # # #>
-    r> base !
-  ;
-
  0 constant BLACK
  1 constant RED
 11 constant YELLOW

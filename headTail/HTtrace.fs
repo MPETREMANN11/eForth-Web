@@ -69,6 +69,7 @@ char * value CHAR_TO_DISPLAY
     then
   ;
 
+
 : traceLoop ( -- )
     setStartPoint
     setColorRandomly

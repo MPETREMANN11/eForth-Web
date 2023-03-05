@@ -4,7 +4,7 @@
   <li><a href="https://eforth.arduino-forth.com/article/lexiqueEFORTHv7078">eFORTH Words Lexicon v 7.078</a></li>
   <li><b>Installation and use</b>
       <ul>
-          <li><a href="hhttps://eforth.arduino-forth.com/article/installation_instal">Installation</a></li>
+          <li><a href="https://eforth.arduino-forth.com/article/installation_instal">Installation</a></li>
       </ul>
   </li>
   <li><b>Elements</b>

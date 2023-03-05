@@ -2,6 +2,11 @@
 <h2>Ressources</h2>
 <ul>
   <li><a href="https://eforth.arduino-forth.com/article/lexiqueEFORTHv7078">eFORTH Words Lexicon v 7.078</a></li>
+  <li><b>Installation and use</b>
+      <ul>
+          <li><a href="hhttps://eforth.arduino-forth.com/article/installation_instal">Installation</a></li>
+      </ul>
+  </li>
   <li><b>Elements</b>
       <ul>
           <li><a href="https://eforth.arduino-forth.com/article/elements_introduction">eFORTH - Introduction</a></li>

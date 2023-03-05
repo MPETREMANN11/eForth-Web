@@ -4,7 +4,7 @@
   <li><a href="https://eforth.arduino-forth.com/article/lexiqueEFORTHv7078">eFORTH Words Lexicon v 7.078</a></li>
   <li><b>Elements</b>
       <ul>
-          <li><a chref="https://eforth.arduino-forth.com/article/elements_introduction">eFORTH - Introduction</a></li>
+          <li><a href="https://eforth.arduino-forth.com/article/elements_introduction">eFORTH - Introduction</a></li>
           <li><a href="https://eforth.arduino-forth.com/article/elements_dictVarsConsts">Dictionnary /Stack / Variables / Constants</a></li>
           <li><a href="https://eforth.arduino-forth.com/article/elements_numbersInForth">Integers numbers with eFORTH</a></li>
           <li><a href="https://eforth.arduino-forth.com/article/elements_floatingPoint">The floating point with eFORTH</a></li>

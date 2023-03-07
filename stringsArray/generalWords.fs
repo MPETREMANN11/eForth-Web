@@ -2,7 +2,7 @@
 \ general words for STRINGS ARRAY program
 \    Filename:      generalWords.fs
 \    Date:          04 mar 2023
-\    Updated:       04 mar 2023
+\    Updated:       07 mar 2023
 \    File Version:  1.0
 \    MCU:           eFORTH
 \    Copyright:     Marc PETREMANN
@@ -18,8 +18,9 @@
 
 structures
 struct STR-ARRAY
-    ptr field ->nbStrings        \ quantity of strings in array
-    ptr field ->strDatas         \ strings datas in array
+    ptr field ->nbStrings       \ quantity of strings in array
+    ptr field ->optionChoice    \ selected option choice
+    ptr field ->strDatas        \ strings datas in array
 forth
 
 \ pointer for string storing
@@ -28,7 +29,8 @@ forth
 \ define a string array
 : strArray:  ( comp: n -- | exec: -- addr )
     create
-        dup ,
+        dup ,               \ compile nbStrings
+        0 ,                 \ compile option choice, 0 by default
         here to STR_INDEX
         cell * allot
     does>
@@ -40,6 +42,7 @@ forth
     cell +to STR_INDEX
   ;
 
+\ test if index n is out of range
 : indexOutRangeTest ( n addr -- )
     2dup
     ->nbStrings @ >
@@ -60,5 +63,16 @@ forth
 : zStrType ( n addr -- )
     zStr@ z>s type
   ;
+
+\ display all options in a zStr list
+: dispZstrList { addr -- }
+    0 { nbItems }
+    addr ->nbStrings @ to nbItems
+    nbItems 1- for
+        nbItems 1- i - addr zStrType  cr
+    next
+  ;
+
+
 
 

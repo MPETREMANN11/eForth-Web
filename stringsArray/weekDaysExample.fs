@@ -2,7 +2,7 @@
 \ days of week example
 \    Filename:      weekDaysExample.fs
 \    Date:          05 mar 2023
-\    Updated:       05 mar 2023
+\    Updated:       07 mar 2023
 \    File Version:  1.0
 \    MCU:           eFORTH
 \    Copyright:     Marc PETREMANN
@@ -27,10 +27,10 @@
     z" Thursday "   zStr!
     z" Friday"      zStr!
     z" Saturday"    zStr!
-    z" Subday"      zStr!
+    z" Sunday"      zStr!
   [THEN]
 
-
+\ use example: 
 0 days zStrType cr
 3 days zStrType cr
 

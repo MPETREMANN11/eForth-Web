@@ -1,19 +1,50 @@
 <img src="eForth.png"/>
 <h2>Ressources</h2>
 <ul>
-  <li><a href="https://eforth.arduino-forth.com/article/lexiqueEFORTHv7078">eFORTH Words Lexicon v 7.078</a></li>
-  <li><b>Installation and use</b>
-      <ul>
-          <li><a href="https://eforth.arduino-forth.com/article/installation_instal">Installation</a></li>
-      </ul>
-  </li>
-  <li><b>Elements</b>
-      <ul>
-          <li><a href="https://eforth.arduino-forth.com/article/elements_introduction">eFORTH - Introduction</a></li>
-          <li><a href="https://eforth.arduino-forth.com/article/elements_dictVarsConsts">Dictionnary /Stack / Variables / Constants</a></li>
-          <li><a href="https://eforth.arduino-forth.com/article/elements_numbersInForth">Integers numbers with eFORTH</a></li>
-          <li><a href="https://eforth.arduino-forth.com/article/elements_floatingPoint">The floating point with eFORTH</a></li>
-          <li><a href="https://eforth.arduino-forth.com/article/elements_dataStructures">Datas Structures for eFORTH</a></li>
-      </ul>
+    <li>
+        <a id="menu-idArticle" href="article/">articles</a>
+        <ul>
+            <li><a href="https://eforth.arduino-forth.com/article/lexiqueEFORTHv7078windows">Lexique des mots eFORTH v 7.078 windows</a></li>
+            <li><a href="https://eforth.arduino-forth.com/article/lexiqueEFORTHv7079web">eFORTH Words Lexicon v 7.079 web</a></li>
+            <li>
+                <span>Installation and use</span>
+                <ul>
+                    <li>
+                        <span>Web</span>
+                        <ul>
+                            <li><a href="https://eforth.arduino-forth.com/article/installation_web_instalWebServer">Installation on web server</a></li>
+                            <li><a href="web-eforth/index/">Test eForth online</a></li>
+                            <li><a href="https://eforth.arduino-forth.com/article/installation_web_importFile">Importing files to eFORTH web</a></li>
+                            <li><a href="https://eforth.arduino-forth.com/article/installation_web_embedScript">Intégrer un script eFORTH dans une page web</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>Windows</span>
+                        <ul>
+                            <li><a href="https://eforth.arduino-forth.com/article/installation_windows_instalWindows">Installation under Windows</a></li>
+                            <li><a href="https://eforth.arduino-forth.com/article/installation_windows_extendGraphics">Extend graphics vocabulary for Windows</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span>Elements</span>
+                <ul>
+                    <li><a href="https://eforth.arduino-forth.com/article/elements_introduction">eFORTH - Introduction</a></li>
+                    <li><a href="https://eforth.arduino-forth.com/article/elements_dictVarsConsts">Dictionnary /Stack / Variables / Constants</a></li>
+                    <li><a href="https://eforth.arduino-forth.com/article/elements_numbersInForth">Integers numbers with eFORTH</a></li>
+                    <li><a href="https://eforth.arduino-forth.com/article/elements_floatingPoint">The floating point with eFORTH</a></li>
+                    <li><a href="https://eforth.arduino-forth.com/article/elements_dataStructures">Datas Structures for eFORTH</a></li>
+                </ul>
+            </li>
+            <li>
+                <span>Examples / Exemples</span>
+                <ul>
+                    <li><a href="https://eforth.arduino-forth.com/article/examples_lotto">LOTTO: analysis and statistics</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><a href="https://eforth.arduino-forth.com/listing/index">Listings eFORTH</a></li>
   </li>
 </ul>

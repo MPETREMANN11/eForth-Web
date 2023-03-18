@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>try eFORTH web</title>
+</head>
+<body>
+<article style="position:absolute;top:0px;">
+<h2>try eFORTH web</h2>
+<p></p>
+<style type='text/css'>
+    #ueforth canvas { 
+        background-color: #ffffff;
+        border: 1px solid #7f7f7f;
+    }
+</style>
+
+<div id="ueforth"></div>
+<script src="../js/ueforth.js"></script>
+<script type="text/forth">
+web definitions
+JSWORD: ellipse { x y rx ry rot }
+  context.ctx.ellipse(x, y, rx, ry, rot * Math.PI/180, 0, 2 * Math.PI);
+~
+
+forth definitions
+
+400 constant ctxWidth
+400 constant ctxHeight
+
+$0000af constant faceColor
+
+ctxHeight 2 / value radius
+
+radius 10 /   value face_width
+
+
+\ initialize canvas
+web
+: initCanvas ( -- )
+    gr
+    ctxWidth ctxHeight window
+    radius radius translate  
+    radius 90 100 */ to radius
+  ;
+
+\ : getAngle ( i -- )  
+\ \     ang = num * Math.PI / 6;
+\     s>f PI f* 6e f/ 100
+\     f>s
+\   ;
+
+: drawFace ( -- )
+    faceColor color!
+    face_width lineWidth
+    0 0 radius radius 0 ellipse
+    stroke
+  ;
+
+: drawHrMin { size }
+    beginPath
+    radius size 100 */ 0 moveTo
+    radius 0 lineTo
+    stroke
+  ;
+
+\ draw hours
+: drawHours ( --)
+    gpush
+    face_width 3 5 */ lineWidth
+    13 1 do
+        1 12 rotate
+        85 drawHrMin
+    loop
+    gpop
+  ;
+  
+\ draw minutes  
+: drawMinutes ( -- )
+    gpush
+    face_width 2 12 */ lineWidth
+    61 0 do
+        1 60 rotate
+        90 drawHrMin
+    loop
+    gpop
+  ;
+
+
+\ draw clock in canvas
+: drawClock ( -- )
+    initCanvas
+    drawFace
+    drawMinutes
+    drawHours
+  ;
+
+drawClock
+</script>
+<script type="text/forth">    
+</script>
+
+</article>
+</body>
+</html>
+
+
+
+
+
+
+
+<!--
+function clock(){
+  var now = new Date();
+  var ctx = document.getElementById('canvas').getContext('2d');
+  ctx.save();
+  ctx.clearRect(0,0,150,150);
+  ctx.translate(75,75);
+  ctx.scale(0.4,0.4);
+  ctx.rotate(-Math.PI/2);
+  ctx.strokeStyle = "black";
+  ctx.fillStyle = "white";
+  ctx.lineWidth = 8;
+  ctx.lineCap = "round";
+
+  // Marquage des heures
+  ctx.save();
+  for (var i=0;i<12;i++){
+    ctx.beginPath();
+    ctx.rotate(Math.PI/6);
+    ctx.moveTo(100,0);
+    ctx.lineTo(120,0);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // Marquage des minutes
+  ctx.save();
+  ctx.lineWidth = 5;
+  for (i=0;i<60;i++){
+    if (i%5!=0) {
+      ctx.beginPath();
+      ctx.moveTo(117,0);
+      ctx.lineTo(120,0);
+      ctx.stroke();
+    }
+    ctx.rotate(Math.PI/30);
+  }
+  ctx.restore();
+
+  var sec = now.getSeconds();
+  var min = now.getMinutes();
+  var hr  = now.getHours();
+  hr = hr>=12 ? hr-12 : hr;
+
+  ctx.fillStyle = "black";
+
+  // Aiguille des heures
+  ctx.save();
+  ctx.rotate( hr*(Math.PI/6) + (Math.PI/360)*min + (Math.PI/21600)*sec )
+  ctx.lineWidth = 14;
+  ctx.beginPath();
+  ctx.moveTo(-20,0);
+  ctx.lineTo(80,0);
+  ctx.stroke();
+  ctx.restore();
+
+  // Aiguille des minutes
+  ctx.save();
+  ctx.rotate( (Math.PI/30)*min + (Math.PI/1800)*sec )
+  ctx.lineWidth = 10;
+  ctx.beginPath();
+  ctx.moveTo(-28,0);
+  ctx.lineTo(112,0);
+  ctx.stroke();
+  ctx.restore();
+
+  // Aiguille des secondes
+  ctx.save();
+  ctx.rotate(sec * Math.PI/30);
+  ctx.strokeStyle = "#D40000";
+  ctx.fillStyle = "#D40000";
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(-30,0);
+  ctx.lineTo(83,0);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0,0,10,0,Math.PI*2,true);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(95,0,10,0,Math.PI*2,true);
+  ctx.stroke();
+  ctx.fillStyle = "rgba(0,0,0,0)";
+  ctx.arc(0,0,3,0,Math.PI*2,true);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.beginPath();
+  ctx.lineWidth = 14;
+  ctx.strokeStyle = '#325FA2';
+  ctx.arc(0,0,142,0,Math.PI*2,true);
+  ctx.stroke();
+
+  ctx.restore();
+
+  window.requestAnimationFrame(clock);
+}
+
+window.requestAnimationFrame(clock);
+
+-->

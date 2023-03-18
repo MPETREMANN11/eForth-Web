@@ -1,1 +1,1 @@
-<img src="canvasCLOCK.png"/>
+<img src="canvasCLOCK2.png"/>

@@ -2,25 +2,41 @@
 \ additional definitions for eFORTH web
 \    Filename:      additionalDefs.fs
 \    Date:          14 mar 2023
-\    Updated:       15 mar 2023
+\    Updated:       18 mar 2023
 \    File Version:  1.0
 \    Forth:         eFORTH web
 \    Author:        Marc PETREMANN
 \    GNU General Public License
 \ *********************************************************************
 
-
+\ doc: https://developer.mozilla.org/fr/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors
 
 web definitions
+
+\ *** DATE and TIME words ******************************************************
+
+\ push current year month and day on stack
+JSWORD: date@ { -- y m d }
+    let date = new Date();
+    return [date.getFullYear(), date.getMonth()+1, date.getUTCDate()];
+~
+
+\ push current hour minutes and seconds on stack
+JSWORD: time@ { -- h m s }
+    let date = new Date();
+    return [date.getHours(), date.getMinutes(), date.getSeconds()];
+~
+
+
+\ *** GRAPHIC extensions words *************************************************
 
 \ draw ellipse
 JSWORD: ellipse { x y rx ry rot }
   context.ctx.ellipse(x, y, rx, ry, rot * Math.PI/180, 0, 2 * Math.PI);
-  context.ctx.stroke();
 ~
-\ usage, draw a red ellipse
+\ usage, draw ellipse with red border
 \ $ff0000 color!
-\ 100 100 75 30 0 ellipse
+\ 100 100 75 30 0 ellipse stroke
 
 
 \ write text in graphic mode
@@ -34,9 +50,7 @@ JSWORD: fillText { a n x y -- }
 
 
 \ @TODO: Autres fonctions à creuser:
-\ rotate
 \ fillStyle
-\ fill
 \ rect
 \ strokeRect
 \     ctx.strokeStyle = "green";

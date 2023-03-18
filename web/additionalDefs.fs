@@ -31,12 +31,13 @@ JSWORD: time@ { -- h m s }
 \ *** GRAPHIC extensions words *************************************************
 
 \ draw ellipse
-JSWORD: ellipse { x y rx ry rot }
-  context.ctx.ellipse(x, y, rx, ry, rot * Math.PI/180, 0, 2 * Math.PI);
+\ draw ellipse
+JSWORD: ellipse { x y rx ry angle div }
+  context.ctx.ellipse(x, y, rx, ry, Math.PI * 2 * angle / div, 0, 2 * Math.PI);
 ~
 \ usage, draw ellipse with red border
 \ $ff0000 color!
-\ 100 100 75 30 0 ellipse stroke
+\ 100 100 75 30 0 360 ellipse stroke
 
 
 \ write text in graphic mode

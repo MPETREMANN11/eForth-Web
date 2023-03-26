@@ -2,7 +2,7 @@
 \ additional definitions for eFORTH web
 \    Filename:      additionalDefs.fs
 \    Date:          14 mar 2023
-\    Updated:       25 mar 2023
+\    Updated:       26 mar 2023
 \    File Version:  1.0
 \    Forth:         eFORTH web
 \    Author:        Marc PETREMANN
@@ -72,6 +72,15 @@ JSWORD: strokeText { a n x y -- }
 \ usage
 \ $ff0000 color!
 \ s" test" 20 30 strokeText
+
+
+\ possible values: start end left right or center; default: start
+JSWORD: textAlign { a n -- } 
+  context.ctx.textAlign = GetString(a, n); 
+~ 
+\ usage:
+\ s" center" textAlign
+
 
 
 \ draw rectangle

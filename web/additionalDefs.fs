@@ -2,7 +2,7 @@
 \ additional definitions for eFORTH web
 \    Filename:      additionalDefs.fs
 \    Date:          14 mar 2023
-\    Updated:       26 mar 2023
+\    Updated:       31 mar 2023
 \    File Version:  1.0
 \    Forth:         eFORTH web
 \    Author:        Marc PETREMANN
@@ -41,9 +41,39 @@ JSWORD: arc { x y r a0 ax div }
   ;
 
 
+\ clip path 
+JSWORD: clip { }
+    context.ctx.clip();
+~
+
+
 \ clear rectangle
 JSWORD: clearRect { x y width height }
     context.ctx.clearRect(x, y, width, height);
+~
+
+
+JSWORD: drawImage { a n x y }
+    let img = new Image();
+    img.src = GetString(a, n);
+    if(img.complete){
+        context.ctx.drawImage(img, x, y);
+    }
+~
+
+
+\ get image datas
+JSWORD: getImageData { x y width height }
+    context.ctx.getImageData(x, y, width, height);
+~
+
+
+JSWORD: imageSize { a n -- w h }
+    let img = new Image();
+    img.src = GetString(a, n);
+    if(img.complete){
+        return [img.naturalWidth, img.naturalHeight];
+    }  
 ~
 
 
@@ -63,6 +93,13 @@ JSWORD: globalAlpha! { val div }
 \ 7 10 globalAlpha!
 \ $ffffff color!
 \ 10 10 100 20 rect fill
+
+
+\ define text write direction
+\ values: ltr rtl inherit ; inherit by default
+JSWORD: direction { a n x y -- }
+  context.ctx.direction = GetString(a, n);
+~
 
 
 \ write text in graphic mode
@@ -98,5 +135,26 @@ JSWORD: resetTransform { }
 ~
 
 
+\ @TODO: à creuser
+
+\ createConicGradient(startAngle, x, y)
+
+\ createLinearGradient(x0, y0, x1, y1)
+
+\ createRadialGradient(x0, y0, r0, x1, y1, r1)
+
+\ direction
+
+\ filter
+
+\ isPointInPath(x, y)
+
+\ isPointInStroke(x, y)
+
+\ putImageData(imageData, dx, dy)
+
+\ quadraticCurveTo(cpx, cpy, x, y)
+
+\ reset()
 
 forth definitions

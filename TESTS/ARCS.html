@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>display tests with eFORTH web</title>
+</head>
+<body>
+<article style="position:absolute;top:0px;">
+<h2>try eFORTH web</h2>
+<p></p>
+<style type='text/css'>
+    #ueforth canvas {
+        background-color: #ffffff;
+        border: 1px solid #7f7f7f;
+    }
+</style>
+
+<div id="ueforth"></div>
+<script src="../js/ueforth.js"></script>
+<script type="text/forth" src="../additionalDefs.fs"></script>
+<script type="text/forth" src="fs/config.fs"></script>
+<script type="text/forth" src="fs/drawGrid.fs"></script>
+<script type="text/forth">
+web gr
+ctxWidth ctxHeight window
+COLOR_RED color!
+beginPath  100 100 60   0  90 360 arc stroke
+beginPath  100 100 70  90 180 360 arc stroke
+beginPath  100 100 80 180 270 360 arc stroke
+beginPath  100 100 90 270 360 360 arc stroke
+beginPath  100 100 100 circle stroke
+</script>
+
+</article>
+</body>
+</html>

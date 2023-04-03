@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>display tests with eFORTH web</title>
+</head>
+<body>
+<article style="position:absolute;top:0px;">
+<h2>try eFORTH web</h2>
+<p></p>
+<style type='text/css'>
+    #ueforth canvas { 
+        background-color: #ffffff;
+        border: 1px solid #7f7f7f;
+    }
+</style>
+
+<div id="ueforth"></div>
+<script src="../js/ueforth.js"></script>
+<script type="text/forth" src="../additionalDefs.fs"></script>
+<script type="text/forth" src="fs/config.fs"></script>
+<script type="text/forth">
+web gr
+ctxWidth ctxHeight window
+
+0 value imgWidth
+0 value imgHeight
+
+defer imgSrc
+
+: imgCasino ( -- addr len )
+    s" casinoMachine.svg" 
+  ;
+
+' imgCasino is imgSrc
+  
+imgSrc imageSize
+    to imgHeight
+    to imgWidth
+    
+create XYscale
+    0 , 0 ,
+
+: calcScale { canW canH imgW imgH -- x y div }    
+    canW canH >
+    if                                  \ horizontal canvas
+        imgH imgW >
+        if                              \ vertical image
+            canW canW imgW
+        else                            \ horizontal image
+            canH canH imgH
+        then
+    else                                \ vertical canvas
+        imgH imgW >
+        if                              \ vertical image
+            canW canW imgH
+        else                            \ horizontal image
+            canW canW imgW
+        then
+    then
+    2dup XYscale 2!
+  ;
+    
+ctxWidth ctxHeight imgWidth imgHeight calcScale scale
+
+0 value imgXpos
+0 value imgYpox
+
+ctxWidth  imgWidth XYscale 2@ */  - 
+    to imgXpos
+
+imgSrc imgXpos imgYpox drawImage
+
+</script>
+<script>
+// let img = new Image();
+// var width = img.with() {}
+</script>
+
+</article>
+</body>
+</html>

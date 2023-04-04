@@ -2,7 +2,7 @@
 \ additional definitions for eFORTH web
 \    Filename:      additionalDefs.fs
 \    Date:          14 mar 2023
-\    Updated:       02 mar 2023
+\    Updated:       04 apr 2023
 \    File Version:  1.0
 \    Forth:         eFORTH web
 \    Author:        Marc PETREMANN
@@ -28,7 +28,45 @@ JSWORD: time@ { -- h m s }
 ~
 
 
-\ *** GRAPHIC extensions words *************************************************
+\ *** GRAPHIC extensions words ***  GET RELATIVE MOUSE POSITION FROM CANVAS  ***
+
+\ The word mouse delivers the position of the mouse pointer from the origin x y (0, 0) 
+\ of the HTML page and not from the origin of the canvas.
+\ The word getMousePosition retrieves and recalculates the relative position of the 
+\ mouse pointer from the origin of the canvas.
+JSWORD: getMousePosition { -- mousex mousey }
+    var offset = {x: 0, y: 0};
+    var node = context.ctx.canvas;
+    while (node) {
+        offset.x += node.offsetLeft;
+        offset.y += node.offsetTop;
+        node = node.offsetParent;
+    }
+    return [context.mouse_x-offset.x, context.mouse_y-offset.y];
+~
+
+
+
+\ *** GRAPHIC extensions words ***  DRAW RECTANGLES   **************************
+
+\ clear rectangle
+JSWORD: clearRect { x y width height }
+    context.ctx.clearRect(x, y, width, height);
+~
+
+\ fill rectangle
+JSWORD: fillRect { x y width height }
+    context.ctx.fillRect(x, y, width, height);
+~
+
+\ stroke rectangle
+JSWORD: strokeRect { x y width height }
+    context.ctx.strokeRect(x, y, width, height);
+~
+
+
+
+\ *** GRAPHIC extensions words ***  PATHS  *************************************
 
 JSWORD: arc { x y r a0 ax div }
   context.ctx.arc(x, y, r, (Math.PI * 2 * a0) / div, (Math.PI * 2 * ax) / div);
@@ -54,11 +92,6 @@ JSWORD: clip { }
 ~
 
 
-\ clear rectangle
-JSWORD: clearRect { x y width height }
-    context.ctx.clearRect(x, y, width, height);
-~
-
 
 \ print dashed lines
 JSWORD: setLineDash  { n0 n1 }
@@ -79,16 +112,32 @@ JSWORD: lineDashOffset  { n }
 
 JSWORD: drawImage { a n x y }
     let img = new Image();
-    img.src = GetString(a, n);
-    if(img.complete){
+    img.addEventListener('load', function() {
         context.ctx.drawImage(img, x, y);
-    }
+    }, false);
+    img.src = GetString(a, n);
 ~
+
+\ JSWORD: drawImage { a n x y }
+\     let img = new Image();
+\     img.src = GetString(a, n);
+\     if(img.complete){
+\         context.ctx.drawImage(img, x, y);
+\     }
+\ ~
 
 
 \ get image datas
-JSWORD: getImageData { x y width height }
-    context.ctx.getImageData(x, y, width, height);
+\ JSWORD: getImageData { x y width height }
+\     let imgData = context.ctx.getImageData(x, y, width, height);
+\ ~
+
+
+\ get pixel color at x y
+JSWORD: getPixelColor { x y -- c }
+    var pixel = context.ctx.getImageData(x, y, 1, 1);
+    console.info(pixel);
+    return pixel.data[0]*256*256 + pixel.data[1]*256 + pixel.data[2];
 ~
 
 
@@ -214,6 +263,29 @@ JSWORD: isPointInPath { x y -- f }
 \ JSWORD: Path2D { -- obj }
 \   return new Path2D();
 \ ~
+
+
+\ Doc online: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+
+\ Shadows **************
+\ 
+\ CanvasRenderingContext2D.shadowBlur
+\ 
+\     Specifies the blurring effect. Default: 0.
+\ CanvasRenderingContext2D.shadowColor
+\ 
+\     Color of the shadow. Default: fully-transparent black.
+\ CanvasRenderingContext2D.shadowOffsetX
+\ 
+\     Horizontal distance the shadow will be offset. Default: 0.
+\ CanvasRenderingContext2D.shadowOffsetY
+\ 
+\     Vertical distance the shadow will be offset. Default: 0.
+
+
+
+
+
 
 
 

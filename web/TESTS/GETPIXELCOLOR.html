@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>display tests with eFORTH web</title>
+</head>
+<body>
+<article style="position:absolute;top:0px;">
+<h2>try eFORTH web</h2>
+<p></p>
+<style type='text/css'>
+    #ueforth canvas {
+        background-color: #ffffff;
+        border: 1px solid #7f7f7f;
+    }
+</style>
+
+<div id="ueforth"></div>
+<script src="../js/ueforth.js"></script>
+<script type="text/forth" src="../additionalDefs.fs"></script>
+<script type="text/forth" src="fs/config.fs"></script>
+<script type="text/forth" src="fs/drawGrid.fs"></script>
+<script type="text/forth">
+$0000ff constant colorBox1
+$0001ff constant colorBox2
+$0100ff constant colorBox3
+
+
+web gr
+ctxWidth ctxHeight window
+colorBox1 color!
+10 10 100 50 fillRect
+colorBox2 color!
+120 10 300 120 fillRect
+colorBox3 color!
+400 140 180 120 fillRect
+
+: waitButtonDown ( -- )
+    begin
+        button 0=
+    until
+  ;
+
+: testBoxes 
+    begin
+        button if
+            getMousePosition getPixelColor 
+            case
+                page
+                colorBox2 of    ." BOX 2 selected" cr    endof
+                colorBox3 of    ." BOX 3 selected" cr    endof
+                colorBox1 of    ." BOX 1 selected" cr    endof
+            endcase
+            200 ms
+        then 
+    key? until 
+  ;   
+
+." click on any blue box / space to STOP" cr
+testBoxes
+
+
+</script>
+
+</article>
+</body>
+</html>
+

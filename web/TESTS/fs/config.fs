@@ -9,3 +9,4 @@ $808080 constant COLOR_Gray
 $D3D3D3 constant COLOR_LightGray
 
 $ff0000 constant COLOR_RED
+$0000ff constant COLOR_BLUE

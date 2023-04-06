@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>display tests with eFORTH web</title>
+</head>
+<body>
+<article style="position:absolute;top:0px;">
+<h2>try eFORTH web</h2>
+<p></p>
+<style type='text/css'>
+    #ueforth canvas {
+        background-color: #ffffff;
+        border: 1px solid #7f7f7f;
+    }
+</style>
+
+<div id="ueforth"></div>
+<script src="../js/ueforth.js"></script>
+<script type="text/forth" src="../additionalDefs.fs"></script>
+<script type="text/forth" src="fs/config.fs"></script>
+<script type="text/forth" src="fs/drawGrid.fs"></script>
+<script type="text/forth">
+web definitions
+\ only seems to work with the last path drawn
+\ JSWORD: isPointInPath { x y -- f }
+\   return context.ctx.isPointInPath(x, y);
+\ ~
+
+\ Path2D()
+JSWORD: setNewPath2D { a1 n1 -- }
+    var myString = GetString(a1, n1);
+    var graph = new Path2D();
+    context.ctx.beginPath();
+    Object.assign(context.ctx, {[myString]:graph});
+~
+
+\ JSWORD: ci {  }
+\   console.info(context.ctx);
+\ ~
+
+\ isPointInPath(path, x, y)
+JSWORD: isPointInPath { addr len x y -- fl  }
+    var myString = 'context.ctx.' + GetString(addr, len);
+    var path = eval(myString);
+    var graph = new Path2D();
+    graph.addPath(path);
+//    var path = graph.addPath([myString]);
+//    console.info(myString);
+//    obj = context.ctx;
+//    console.info(obj);
+//    console.info(context.ctx);
+//    console.info(Object.values(context.ctx));
+//    for (const [key, value] of Object.entries(context.ctx)) {
+//        console.info(`${key}: ${value}`);
+//    }
+//    console.info(path);
+    return context.ctx.isPointInPath(x, y);
+~
+
+forth definitions
+
+web gr
+
+ctxWidth ctxHeight window
+
+s" aab" setNewPath2D
+10 10 100 100 rect
+stroke
+s" aab" 130 130 isPointInPath
+
+s" aac" setNewPath2D
+120 120 100 100 rect
+stroke
+s" aac" 130 130 isPointInPath
+
+ci
+
+</script>
+</article>
+</body>
+</html>
+

@@ -7,6 +7,9 @@
 <h3>DASH_LINES.html</h3>
 <img src="dashLine.png" style="width:50%;"/>
 
+<h3>GET_PUT_IMAGEDATA.html</h3>
+<img src="getPutImageData.png" style="width:50%;"/>
+
 <h3>GETPIXELCOLOR.html</h3>
 <img src="getPixelColor.png" style="width:50%;"/>
 

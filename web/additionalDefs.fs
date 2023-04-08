@@ -2,7 +2,7 @@
 \ additional definitions for eFORTH web
 \    Filename:      additionalDefs.fs
 \    Date:          14 mar 2023
-\    Updated:       04 apr 2023
+\    Updated:       08 apr 2023
 \    File Version:  1.0
 \    Forth:         eFORTH web
 \    Author:        Marc PETREMANN
@@ -68,12 +68,30 @@ JSWORD: strokeRect { x y width height }
 
 \ *** GRAPHIC extensions words ***  PATHS  *************************************
 
+\ end a drawing path 
+JSWORD: closePath {  }
+  context.ctx.closePath();
+~
+
+
+\ draw ellipse
+JSWORD: ellipse { x y rx ry angle div }
+  context.ctx.ellipse(x, y, rx, ry, Math.PI * 2 * angle / div, 0, 2 * Math.PI);
+~
+\ usage, draw ellipse with red border
+\ $ff0000 color!
+\ 100 100 75 30 0 360 ellipse stroke
+
+
+\ draw arc
 JSWORD: arc { x y r a0 ax div }
   context.ctx.arc(x, y, r, (Math.PI * 2 * a0) / div, (Math.PI * 2 * ax) / div);
 ~
 \ usage:
 \ beginPath  100 100 60   0  90 360 arc stroke
 
+
+\ draw circle
 : circle { x y r }
     x y r 0 360 360 arc
   ;
@@ -85,12 +103,10 @@ JSWORD: arcTo { x1 y1 x2 y2 radius -- }
 ~
 
 
-
 \ clip path 
 JSWORD: clip { }
     context.ctx.clip();
 ~
-
 
 
 \ print dashed lines
@@ -110,6 +126,9 @@ JSWORD: lineDashOffset  { n }
 \   5 lineDashOffset
 
 
+\ *** GRAPHIC extensions words ***  IMAGES  ************************************
+
+\ draw image from file
 JSWORD: drawImage { a n x y }
     let img = new Image();
     img.addEventListener('load', function() {
@@ -117,20 +136,8 @@ JSWORD: drawImage { a n x y }
     }, false);
     img.src = GetString(a, n);
 ~
-
-\ JSWORD: drawImage { a n x y }
-\     let img = new Image();
-\     img.src = GetString(a, n);
-\     if(img.complete){
-\         context.ctx.drawImage(img, x, y);
-\     }
-\ ~
-
-
-\ get image datas
-\ JSWORD: getImageData { x y width height }
-\     let imgData = context.ctx.getImageData(x, y, width, height);
-\ ~
+\ usage:
+\   s" ccar.jpg" drawImage
 
 
 \ get pixel color at x y
@@ -140,7 +147,7 @@ JSWORD: getPixelColor { x y -- c }
     return pixel.data[0]*256*256 + pixel.data[1]*256 + pixel.data[2];
 ~
 
-
+\ get size of loaded image
 JSWORD: imageSize { a n -- w h }
     let img = new Image();
     img.src = GetString(a, n);
@@ -148,15 +155,66 @@ JSWORD: imageSize { a n -- w h }
         return [img.naturalWidth, img.naturalHeight];
     }  
 ~
+\ usage:
+\   s" ccar.jpg" imageSize
 
 
-\ draw ellipse
-JSWORD: ellipse { x y rx ry angle div }
-  context.ctx.ellipse(x, y, rx, ry, Math.PI * 2 * angle / div, 0, 2 * Math.PI);
+JSWORD: getImageData { addr len x y w h }
+    var myString = GetString(addr, len);
+    const imageData = context.ctx.getImageData(x, y, w, h);
+    Object.assign(context.ctx, {[myString]:imageData});
 ~
-\ usage, draw ellipse with red border
-\ $ff0000 color!
-\ 100 100 75 30 0 360 ellipse stroke
+\ usage:
+\   s" motorhome" 20 30 100 200 getImageData
+\   create copie from canvas content, named "motorhome"
+
+
+JSWORD: putImageData { addr len x y }
+    var myString = "context.ctx." + GetString(addr, len);
+    const imageData = eval(myString);
+    console.info(imageData);
+    context.ctx.putImageData(imageData, x, y);
+~
+\ usage:
+\   s" motorhome" 300 30 putImageData
+
+
+
+\ *** GRAPHIC extensions words ***  SHADOWS  ***********************************
+
+\ shadow Blur - default: 0
+JSWORD: shadowBlur { n }
+    context.ctx.shadowBlur = n;
+~
+
+\ shadow Color
+JSWORD: shadowColor { c }
+    function HexDig(n) { 
+        return ('0' + n.toString(16)).slice(-2); 
+    } 
+    context.ctx.shadowColor = '#' + HexDig((c >> 16) & 0xff) + 
+        HexDig((c >> 8) & 0xff) + HexDig(c & 0xff);
+~
+
+\ shadow Offset X
+JSWORD: shadowOffsetX { n }
+    context.ctx.shadowOffsetX = n;
+~
+
+\ shadow offset Y
+JSWORD: shadowOffsetY { n }
+    context.ctx.shadowOffsetY = n;
+~
+
+: setShadow ( ofssetX offsetY blur color -- )
+    shadowColor
+    shadowBlur
+    shadowOffsetY
+    shadowOffsetX
+  ;
+
+
+
 
 
 JSWORD: globalAlpha! { val div }
@@ -266,6 +324,7 @@ JSWORD: isPointInPath { x y -- f }
 
 
 \ Doc online: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+\             https://github.com/mdn/content/tree/main/files/en-us/web/api
 
 \ Shadows **************
 \ 

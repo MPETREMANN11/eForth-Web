@@ -1,21 +1,155 @@
+\ *********************************************************************
+\ BRICKS game in eFORTH web
+\    Filename:      bricks.fs
+\    Date:          13 apr 2023
+\    Updated:       14 apr 2023
+\    File Version:  1.0
+\    Forth:         eFORTH web
+\    Author:        Marc PETREMANN
+\    GNU General Public License
+\ *********************************************************************
 
-\ define canvas size
-600 value ctxWidth
-300 value ctxHeight
 
-\ $000000 constant COLOR_BLACK
-\ $FFFFFF constant COLOR_WHITE
-\ $808080 constant COLOR_Gray
-\ $D3D3D3 constant COLOR_LightGray
-\ 
-\ $ff0000 constant COLOR_RED
-\ $0000ff constant COLOR_BLUE
+\ https://developer.mozilla.org/fr/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript
 
-\ BALL parameters
-$0095DD constant BALL_COLOR
-     10 constant BALL_SIZE
+
+web
+
+\ ***  BALL MANAGEMENT  ********************************************************
+
+\ X and Y ball position
+ctxWidth  2/    value varXposBall
+ctxHeight 30 -  value varYposBall
+
+\ X & Y offset ball move
+ 2 value dxPosBall
+-2 value dyposBall
+
+: ball.draw ( -- )
+    beginPath
+    BALL_COLOR color!
+    varXposBall varYposBall BALL_SIZE circle
+    fill
+    closePath
+  ;
+
+: ball.erase ( -- )
+    varXposBall BALL_SIZE - 
+    varYposBall BALL_SIZE - 
+    BALL_SIZE 2* dup clearRect
+  ;
+
+: ball.move ( -- )
+    ball.erase
+    dxPosBall +to varXposBall
+    dyposBall +to varYposBall
+    ball.draw
+  ;
+
+: ball.move.left ( -- )
+    dxPosBall abs negate to dxPosBall
+  ;
+
+: ball.move.right ( -- )
+    dxPosBall abs        to dxPosBall
+  ;
+
+: ball.move.down ( -- )
+    dyPosBall abs        to dyPosBall
+  ;
+
+: ball.move.up   ( -- )
+    dyPosBall abs negate to dyPosBall
+  ;
+
+\ set limit of ball move
+ctxWidth  BALL_SIZE - constant BALL_LIMIT_RIGHT
+          BALL_SIZE   constant BALL_LIMIT_LEFT
+          BALL_SIZE   constant BALL_LIMIT_TOP
+ctxHeight BALL_SIZE - constant BALL_LIMIT_BOTTOM
+
+: ball.direction.change ( -- )
+    \ test if ball hits right edge
+    varXposBall BALL_LIMIT_RIGHT >= if
+        ball.move.left  exit
+    then
+    \ test if ball reaches left edge
+    varXposBall BALL_LIMIT_LEFT  <= if
+        ball.move.right exit
+    then
+    \ test if ball reaches top edge
+    varYposBall BALL_LIMIT_TOP  <= if
+        ball.move.down  exit
+    then
+    \ test if ball reaches bottom edge
+    varYposBall BALL_LIMIT_BOTTOM  >= if
+        ball.move.up    exit
+    then
+  ;
+
+
+\ ***  RACQUET MANAGEMENT  *****************************************************
 
 \ RACQUET parameters
-$0075BD constant RACQUET_COLOR
-     50 constant RACQUET_WIDTH
-     10 constant RACQUET_HEIGHT
+\ $0075BD constant RACQUET_COLOR
+\      50 constant RACQUET_WIDTH
+\      10 constant RACQUET_HEIGHT
+
+\ X and Y racquet position
+ctxWidth  2/    RACQUET_WIDTH 2 /  +    value varXposRacquet
+ctxHeight RACQUET_HEIGHT -              value varYposRacquet
+
+\ X & Y offset racquet move
+               10 constant offsetPosRacquet
+ offsetPosRacquet value    dxPosRacquet
+
+: racquet.draw ( -- )
+    RACQUET_COLOR color!
+    varXposRacquet varYposRacquet RACQUET_WIDTH RACQUET_HEIGHT
+    fillRect
+  ;
+
+: racquet.erase ( -- )
+    varXposRacquet varYposRacquet RACQUET_WIDTH RACQUET_HEIGHT
+    clearRect
+  ;
+
+: racquet.move ( -- )
+    racquet.erase
+    dxPosRacquet +to varXposRacquet
+    racquet.draw
+  ;
+
+: racquet.move.left ( -- )
+    dxPosRacquet abs negate to dxPosRacquet
+  ;
+
+: racquet.move.right ( -- )
+    dxPosBall abs           to dxPosBall
+  ;
+
+\ set limit of racquet move
+ctxWidth  RACQUET_WIDTH - constant RACQUET_LIMIT_RIGHT
+                      0   constant RACQUET_LIMIT_LEFT
+
+: racquet.direction.change ( -- )
+    mouse drop  { mouseXpos }            \ get mouse x position
+    varXposRacquet RACQUET_WIDTH 2/ + { midRaqPos }
+  ;
+
+
+\ ***  MAIN GAME WORDS  ********************************************************
+ 
+: GAME ( -- )
+    begin
+        ball.direction.change
+        ball.move
+        16ga ms
+    key? until
+  ;
+
+
+
+
+
+

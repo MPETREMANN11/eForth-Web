@@ -1,6 +1,6 @@
 \ *********************************************************************
-\ BRICKS game in eFORTH web
-\    Filename:      bricks.fs
+\ BRICKS game parameters
+\    Filename:      config.fs
 \    Date:          13 apr 2023
 \    Updated:       14 apr 2023
 \    File Version:  1.0
@@ -10,146 +10,45 @@
 \ *********************************************************************
 
 
-\ https://developer.mozilla.org/fr/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript
+\ *** define canvas size  ******************************************************
+600 value ctxWidth
+300 value ctxHeight
 
 
-web
+\ **  BALL parameters  *********************************************************
 
-\ ***  BALL MANAGEMENT  ********************************************************
-
-\ X and Y ball position
-ctxWidth  2/    value varXposBall
-ctxHeight 30 -  value varYposBall
-
-\ X & Y offset ball move
- 2 value dxPosBall
--2 value dyposBall
-
-: ball.draw ( -- )
-    beginPath
-    BALL_COLOR color!
-    varXposBall varYposBall BALL_SIZE circle
-    fill
-    closePath
-  ;
-
-: ball.erase ( -- )
-    varXposBall BALL_SIZE - 
-    varYposBall BALL_SIZE - 
-    BALL_SIZE 2* dup clearRect
-  ;
-
-: ball.move ( -- )
-    ball.erase
-    dxPosBall +to varXposBall
-    dyposBall +to varYposBall
-    ball.draw
-  ;
-
-: ball.move.left ( -- )
-    dxPosBall abs negate to dxPosBall
-  ;
-
-: ball.move.right ( -- )
-    dxPosBall abs        to dxPosBall
-  ;
-
-: ball.move.down ( -- )
-    dyPosBall abs        to dyPosBall
-  ;
-
-: ball.move.up   ( -- )
-    dyPosBall abs negate to dyPosBall
-  ;
-
-\ set limit of ball move
-ctxWidth  BALL_SIZE - constant BALL_LIMIT_RIGHT
-          BALL_SIZE   constant BALL_LIMIT_LEFT
-          BALL_SIZE   constant BALL_LIMIT_TOP
-ctxHeight BALL_SIZE - constant BALL_LIMIT_BOTTOM
-
-: ball.direction.change ( -- )
-    \ test if ball hits right edge
-    varXposBall BALL_LIMIT_RIGHT >= if
-        ball.move.left  exit
-    then
-    \ test if ball reaches left edge
-    varXposBall BALL_LIMIT_LEFT  <= if
-        ball.move.right exit
-    then
-    \ test if ball reaches top edge
-    varYposBall BALL_LIMIT_TOP  <= if
-        ball.move.down  exit
-    then
-    \ test if ball reaches bottom edge
-    varYposBall BALL_LIMIT_BOTTOM  >= if
-        ball.move.up    exit
-    then
-  ;
+$0095DD constant BALL_COLOR
+     10 constant BALL_SIZE
 
 
-\ ***  RACQUET MANAGEMENT  *****************************************************
+\ ***  RACQUET parameters  *****************************************************
 
-\ RACQUET parameters
-\ $0075BD constant RACQUET_COLOR
-\      50 constant RACQUET_WIDTH
-\      10 constant RACQUET_HEIGHT
-
-\ X and Y racquet position
-ctxWidth  2/    RACQUET_WIDTH 2 /  +    value varXposRacquet
-ctxHeight RACQUET_HEIGHT -              value varYposRacquet
-
-\ X & Y offset racquet move
-               10 constant offsetPosRacquet
- offsetPosRacquet value    dxPosRacquet
-
-: racquet.draw ( -- )
-    RACQUET_COLOR color!
-    varXposRacquet varYposRacquet RACQUET_WIDTH RACQUET_HEIGHT
-    fillRect
-  ;
-
-: racquet.erase ( -- )
-    varXposRacquet varYposRacquet RACQUET_WIDTH RACQUET_HEIGHT
-    clearRect
-  ;
-
-: racquet.move ( -- )
-    racquet.erase
-    dxPosRacquet +to varXposRacquet
-    racquet.draw
-  ;
-
-: racquet.move.left ( -- )
-    dxPosRacquet abs negate to dxPosRacquet
-  ;
-
-: racquet.move.right ( -- )
-    dxPosBall abs           to dxPosBall
-  ;
+$0075BD constant RACQUET_COLOR
+     50 constant RACQUET_WIDTH
+     10 constant RACQUET_HEIGHT
+RACQUET_WIDTH 2/ constant RACQUET_HALF_WIDTH
 
 \ set limit of racquet move
-ctxWidth  RACQUET_WIDTH - constant RACQUET_LIMIT_RIGHT
-                      0   constant RACQUET_LIMIT_LEFT
-
-: racquet.direction.change ( -- )
-    mouse drop  { mouseXpos }            \ get mouse x position
-    varXposRacquet RACQUET_WIDTH 2/ + { midRaqPos }
-  ;
+ctxWidth  RACQUET_HALF_WIDTH - constant RACQUET_LIMIT_RIGHT
+       0  RACQUET_HALF_WIDTH + constant RACQUET_LIMIT_LEFT
 
 
-\ ***  MAIN GAME WORDS  ********************************************************
- 
-: GAME ( -- )
-    begin
-        ball.direction.change
-        ball.move
-        16ga ms
-    key? until
-  ;
+\ ***  BRICKS parameters  ******************************************************
 
+     20 constant BRICKS_PER_LINE
+      6 constant BRICKS_LINES
 
+ctxWidth BRICKS_PER_LINE /
+        constant BRICKS_HORIZONTAL_INTERVAL
 
+BRICKS_HORIZONTAL_INTERVAL 2 -
+        constant BRICKS_WIDTH
+      8 constant BRICKS_HEIGHT
 
+BRICKS_HEIGHT 2 +
+        constant BRICKS_VERTICAL_INTERVAL
+
+$B22222         constant COLOR_FireBrick
+COLOR_FireBrick constant BRICKS_COLOR
 
 

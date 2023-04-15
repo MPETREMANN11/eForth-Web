@@ -2,7 +2,7 @@
 \ additional definitions for eFORTH web
 \    Filename:      additionalDefs.fs
 \    Date:          14 mar 2023
-\    Updated:       08 apr 2023
+\    Updated:       15 apr 2023
 \    File Version:  1.0
 \    Forth:         eFORTH web
 \    Author:        Marc PETREMANN
@@ -10,6 +10,7 @@
 \ *********************************************************************
 
 \ doc: https://developer.mozilla.org/fr/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors
+\      https://www.w3schools.com/tags/ref_canvas.asp
 
 web definitions
 
@@ -54,15 +55,27 @@ JSWORD: clearRect { x y width height }
     context.ctx.clearRect(x, y, width, height);
 ~
 
+
 \ fill rectangle
 JSWORD: fillRect { x y width height }
     context.ctx.fillRect(x, y, width, height);
 ~
 
+
 \ stroke rectangle
 JSWORD: strokeRect { x y width height }
     context.ctx.strokeRect(x, y, width, height);
 ~
+
+
+\ draw rectangle
+JSWORD: rect { x y width height }
+    context.ctx.rect(x, y, width, height);
+~
+\ usage:
+\ $0000ff color!
+\ 10 10 100 20 rect stroke
+
 
 
 
@@ -147,6 +160,7 @@ JSWORD: getPixelColor { x y -- c }
     return pixel.data[0]*256*256 + pixel.data[1]*256 + pixel.data[2];
 ~
 
+
 \ get size of loaded image
 JSWORD: imageSize { a n -- w h }
     let img = new Image();
@@ -179,6 +193,18 @@ JSWORD: putImageData { addr len x y }
 \   s" motorhome" 300 30 putImageData
 
 
+\ create <name> in dictionnay and save part of image
+\ execuction of  x y <name>  display saved part of image
+: getImage: ( comp: x y w h -- <name> | exec: x y <name> )
+    create
+        >r >r >r >r
+        latestxt dup , 
+        >name  r> r> r> r>  getImageData
+    does>
+        -rot >r >r
+        @ >name r> r>  putImageData
+  ;
+
 
 \ *** GRAPHIC extensions words ***  SHADOWS  ***********************************
 
@@ -186,6 +212,7 @@ JSWORD: putImageData { addr len x y }
 JSWORD: shadowBlur { n }
     context.ctx.shadowBlur = n;
 ~
+
 
 \ shadow Color
 JSWORD: shadowColor { c }
@@ -196,10 +223,12 @@ JSWORD: shadowColor { c }
         HexDig((c >> 8) & 0xff) + HexDig(c & 0xff);
 ~
 
+
 \ shadow Offset X
 JSWORD: shadowOffsetX { n }
     context.ctx.shadowOffsetX = n;
 ~
+
 
 \ shadow offset Y
 JSWORD: shadowOffsetY { n }
@@ -251,13 +280,6 @@ JSWORD: textAlign { a n -- }
 
 
 
-\ draw rectangle
-JSWORD: rect { x y width height }
-    context.ctx.rect(x, y, width, height);
-~
-\ usage:
-\ $0000ff color!
-\ 10 10 100 20 rect stroke
 
 
 \ reset translate and rotate
@@ -325,27 +347,6 @@ JSWORD: isPointInPath { x y -- f }
 
 \ Doc online: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 \             https://github.com/mdn/content/tree/main/files/en-us/web/api
-
-\ Shadows **************
-\ 
-\ CanvasRenderingContext2D.shadowBlur
-\ 
-\     Specifies the blurring effect. Default: 0.
-\ CanvasRenderingContext2D.shadowColor
-\ 
-\     Color of the shadow. Default: fully-transparent black.
-\ CanvasRenderingContext2D.shadowOffsetX
-\ 
-\     Horizontal distance the shadow will be offset. Default: 0.
-\ CanvasRenderingContext2D.shadowOffsetY
-\ 
-\     Vertical distance the shadow will be offset. Default: 0.
-
-
-
-
-
-
 
 
 forth definitions

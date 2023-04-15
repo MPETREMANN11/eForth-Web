@@ -36,18 +36,21 @@ defer imgSrc
 
 ' imgCCar is imgSrc
 
-
-
 web gr
 
 ctxWidth ctxHeight window
 
 imgSrc 5 5 drawImage
 500 ms
-s" motorhome" 30 5 80 232 getImageData
+\ s" motorhome" 30 5 80 232 getImageData
 
-s" motorhome" 380 5 putImageData
-s" motorhome" 465 5 putImageData
+30 5 80 232 getImage: motorhome
+
+\ s" motorhome" 380 5 putImageData
+\ s" motorhome" 465 5 putImageData
+
+380 5 motorhome
+465 5 motorhome
 
 \ ci
 

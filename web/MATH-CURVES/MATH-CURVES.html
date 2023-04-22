@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MATH CURVES with eFORTH web</title>
+</head>
+<body>
+<article style="position:absolute;top:0px;">
+<h2>try eFORTH web</h2>
+<p></p>
+<style type='text/css'>
+    #ueforth canvas {
+        background-color: #ffffff;
+        border: 1px solid #7f7f7f;
+    }
+</style>
+
+<div id="ueforth"></div>
+<script src="../js/ueforth.js"></script>
+<script type="text/forth" src="../additionalDefs.fs"></script>
+<script type="text/forth" src="fs/config.fs"></script>
+<script type="text/forth" src="fs/drawGridAndAxes.fs"></script>
+<script type="text/forth" src="fs/drawEquation.fs"></script>
+<script type="text/forth" src="fs/linearEquation.fs"></script>
+<script type="text/forth">
+
+\ https://www.geeksforgeeks.org/fabric-js-image-skewy-property/
+    
+    
+web gr
+ctxWidth ctxHeight window
+
+
+drawMathGrid
+
+' ax+b is equation
+COLOR_RED  color!    line.equat1
+drawEquation
+
+COLOR_BLUE color!    line.equat2
+drawEquation
+
+</script>
+
+</article>
+</body>
+</html>

@@ -21,22 +21,39 @@
 <script type="text/forth" src="fs/drawGridAndAxes.fs"></script>
 <script type="text/forth" src="fs/drawEquation.fs"></script>
 <script type="text/forth" src="fs/linearEquation.fs"></script>
+<script type="text/forth" src="fs/quadraticEquation.fs"></script>
 <script type="text/forth">
 
 \ https://www.geeksforgeeks.org/fabric-js-image-skewy-property/
     
-    
+10 value XX
+
+
 web gr
 ctxWidth ctxHeight window
 
-
 drawMathGrid
 
-' ax+b is equation
-COLOR_RED  color!    line.equat1
+\ 1 changeScale
+ 
+\ ' ax+b is equation
+\ COLOR_RED  color!    
+\ line.equat1
+\ drawEquation
+ 
+\ COLOR_BLUE color!    
+\ line.equat2
+\ drawEquation
+
+' ax2+bx+c is equation
+COLOR_BLUE  color!    
+quad.equat1
 drawEquation
 
-COLOR_BLUE color!    line.equat2
+
+' ax3+bx2+cx+d is equation
+COLOR_RED  color!    
+quad.equat2
 drawEquation
 
 </script>

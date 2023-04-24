@@ -2,7 +2,7 @@
 \ draw grid in canvas array
 \    Filename:      drawGridAndAxes.fs
 \    Date:          21 apr 2023
-\    Updated:       22 apr 2023
+\    Updated:       23 apr 2023
 \    File Version:  1.0
 \    Forth:         eFORTH web
 \    Author:        Marc PETREMANN
@@ -17,12 +17,16 @@
     GRID_STEP / GRID_STEP *
   ;
 
+\ change equation draw scale
+: changeScale ( scale -- )
+    EQUATION_SCALE !
+  ;
+
 web
 
 \ set grid origin in middle X and Y of canvas
 : initGrid ( -- )
     CANVAS_X_MIDDLE  CANVAS_Y_MIDDLE  translate
-\     180 360 rotate
     100 -100 100 scale
   ;
 
@@ -62,7 +66,8 @@ web
     closePath
   ;
 
-GRID_STEP 5 / 2* value GRADUATION_SIZE
+GRID_STEP 5 / 2* 
+constant GRADUATION_SIZE
 
 \ draw main graduations 
 : drawMainGraduations ( -- )
@@ -81,6 +86,7 @@ GRID_STEP 5 / 2* value GRADUATION_SIZE
     GRID_STEP +loop
   ;
 
+\ draw grid, axes and graduations
 : drawMathGrid ( -- )
     initGrid
     drawXYgrid

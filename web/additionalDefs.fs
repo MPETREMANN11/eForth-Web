@@ -2,7 +2,7 @@
 \ additional definitions for eFORTH web
 \    Filename:      additionalDefs.fs
 \    Date:          14 mar 2023
-\    Updated:       15 apr 2023
+\    Updated:       09 may 2023
 \    File Version:  1.0
 \    Forth:         eFORTH web
 \    Author:        Marc PETREMANN
@@ -139,6 +139,38 @@ JSWORD: lineDashOffset  { n }
 \   5 lineDashOffset
 
 
+\ *** GRAPHIC extensions words ***  PATH2D application  ************************
+
+JSWORD: setNewPath2D { a2 n2 a1 n1 }
+    var myString = GetString(a1, n1);
+    var myPath   = GetString(a2, n2);
+    let path = new Path2D(myPath);
+    Object.assign(context.ctx, {[myString]:path});
+~
+
+JSWORD: drawPath2D { x y addr len }
+    context.ctx.save();
+    context.ctx.translate(x, y);
+    var myString = 'context.ctx.' + GetString(addr, len);
+    var path = eval(myString);
+    let draw  = new Path2D(path);
+    context.ctx.stroke(draw);
+    context.ctx.restore();
+~
+
+: newPath2D: ( comp: addr len -- <name> | exec: x y <name> )
+    create
+        latestxt dup ,
+        >name setNewPath2D
+    does>
+        @ >name drawPath2D
+  ;
+\ example:
+\   s" m 0 0 h 80 v 80 h -80 Z" newPath2D: carre
+\ 40 20 carre 
+\ 44 24 carre
+
+
 \ *** GRAPHIC extensions words ***  IMAGES  ************************************
 
 \ draw image from file
@@ -156,7 +188,6 @@ JSWORD: drawImage { a n x y }
 \ get pixel color at x y
 JSWORD: getPixelColor { x y -- c }
     var pixel = context.ctx.getImageData(x, y, 1, 1);
-    console.info(pixel);
     return pixel.data[0]*256*256 + pixel.data[1]*256 + pixel.data[2];
 ~
 

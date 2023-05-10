@@ -13,6 +13,9 @@
 <h3>GETPIXELCOLOR.html</h3>
 <img src="getPixelColor.png" style="width:50%;"/>
 
+<h3>GRAPHIC_CONSTANTS.html</h3>
+<img src="graphicConstants.png" style="width:50%;"/>
+
 <h3>IMAGE_SVG.html</h3>
 <img src="imgSvg.png" style="width:50%;"/>
 

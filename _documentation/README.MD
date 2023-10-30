@@ -1,1 +1,1 @@
-<img src="_documentation/couvertureEforthWEB.png"/>
+<img src="/_documentation/couvertureEforthWEB.png"/>

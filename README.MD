@@ -5,7 +5,7 @@
         <a id="menu-idArticle" href="article/">articles</a>
         <ul>
             <li><a href="https://eforth.arduino-forth.com/article/lexiqueEFORTHv7078windows">Lexique des mots eFORTH v 7.078 windows</a></li>
-            <li><a href="https://eforth.arduino-forth.com/article/lexiqueEFORTHv7079web">eFORTH Words Lexicon v 7.079 web</a></li>
+            <li><a href="https://eforth.arduino-forth.com/article/lexiqueEFORTHv70715webb">eFORTH Words Lexicon v 7.0.7.15 web</a></li>
             <li>
                 <span>Installation and use</span>
                 <ul>

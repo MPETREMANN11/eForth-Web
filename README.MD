@@ -13,9 +13,10 @@
                         <span>Web</span>
                         <ul>
                             <li><a href="https://eforth.arduino-forth.com/article/installation_web_instalWebServer">Installation on web server</a></li>
-                            <li><a href="web-eforth/index/">Test eForth online</a></li>
+                            <li><a href="https://eforth.arduino-forth.com/web-eforth/index/">Test eForth online</a></li>
                             <li><a href="https://eforth.arduino-forth.com/article/installation_web_importFile">Importing files to eFORTH web</a></li>
-                            <li><a href="https://eforth.arduino-forth.com/article/installation_web_embedScript">Intégrer un script eFORTH dans une page web</a></li>
+                            <li><a href="https://eforth.arduino-forth.com/article/installation_web_embedScript">Integrating eFORTH scripts into a web page</a></li>
+                            <li><a href="https://eforth.arduino-forth.com/article/installation_web_createDefsCallingJS">Create FORTH definitions using JavaScript</a></li>
                         </ul>
                     </li>
                     <li>
